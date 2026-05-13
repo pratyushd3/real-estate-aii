@@ -14,7 +14,9 @@ app.use(bodyParser.json());
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
-
+app.get('/', (req, res) => {
+  res.send('AI Real Estate Assistant is Live 🚀');
+});
 app.post('/chat', async (req, res) => {
   try {
 
