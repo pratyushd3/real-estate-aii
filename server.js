@@ -18,33 +18,58 @@ app.get('/', (req, res) => {
   res.send('AI Real Estate Assistant is Live 🚀');
 });
 app.post('/chat', async (req, res) => {
+
   try {
 
-    const { message } = req.body;
+    const { messages } = req.body;
 
     const completion =
       await groq.chat.completions.create({
+
         messages: [
+
           {
             role: 'system',
             content: `
-You are a professional AI real estate assistant.
 
-Rules:
-- Reply naturally
-- Keep replies short
-- Ask qualifying questions
-- Sound human
-- Help convert leads
-            `,
+You are an expert AI real estate assistant.
+
+IMPORTANT RULES:
+
+- Remember previous conversation context
+- Never ask same question twice
+- Be conversational and smart
+- Understand budgets naturally
+- If user already gave budget/location/property type,
+  do not ask again
+- Guide user like real property consultant
+- Keep replies short and human
+- Ask only missing details
+- Focus on helping customer quickly
+
+Examples:
+
+User:
+"I want 1BHK on rent"
+
+AI:
+"Sure 👍 What's your preferred location and budget?"
+
+User:
+"12000 rupees"
+
+AI:
+"Got it 👍 Which location are you looking in?"
+
+`
           },
-          {
-            role: 'user',
-            content: message,
-          },
+
+          ...messages
+
         ],
 
-       model: 'llama-3.3-70b-versatile',
+        model: 'llama-3.3-70b-versatile',
+
       });
 
     const reply =
@@ -52,7 +77,7 @@ Rules:
 
     res.json({
       success: true,
-      reply,
+      reply
     });
 
   } catch (error) {
@@ -61,11 +86,7 @@ Rules:
 
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: error.message
     });
   }
-});
-
-app.listen(5000, () => {
-  console.log('Server running on port 5000');
 });
