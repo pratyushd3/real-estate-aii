@@ -14,9 +14,11 @@ app.use(bodyParser.json());
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
+
 app.get('/', (req, res) => {
   res.send('AI Real Estate Assistant is Live 🚀');
 });
+
 app.post('/chat', async (req, res) => {
 
   try {
@@ -47,20 +49,6 @@ IMPORTANT RULES:
 - Ask only missing details
 - Focus on helping customer quickly
 
-Examples:
-
-User:
-"I want 1BHK on rent"
-
-AI:
-"Sure 👍 What's your preferred location and budget?"
-
-User:
-"12000 rupees"
-
-AI:
-"Got it 👍 Which location are you looking in?"
-
 `
           },
 
@@ -89,4 +77,8 @@ AI:
       error: error.message
     });
   }
+});
+
+app.listen(5000, () => {
+  console.log('Server running on port 5000');
 });
